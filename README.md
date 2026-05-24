@@ -46,6 +46,13 @@ source .venv/bin/activate
 uv sync
 ```
 
+## Demo Results
+
+| Original | Mask | Overlay |
+|---|---|---|
+| ![1 input](./examples/input/1.jpg) | ![1 mask](./examples/output_mask/1_mask.png) | ![1 overlay](./examples/output_overlay/1_overlay.jpg) |
+| ![2 input](./examples/input/2.jpg) | ![2 mask](./examples/output_mask/2_mask.png) | ![2 overlay](./examples/output_overlay/2_overlay.jpg) |
+
 ## CLI Inference
 
 Script: `scripts/infer_seg_onnx.py`
