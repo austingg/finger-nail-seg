@@ -1,0 +1,17 @@
+[project]
+name = "nail-seg-onnx-demo"
+version = "0.1.0"
+description = "Nail instance segmentation demo with ONNX Runtime CPU and Gradio"
+readme = "README.md"
+requires-python = ">=3.10,<3.13"
+dependencies = [
+  "numpy>=1.24.0",
+  "opencv-python>=4.8.0",
+  "pillow>=10.0.0",
+  "onnxruntime>=1.17.0,<1.24.0",
+  "gradio>=6.14.0,<7.0.0",
+  "huggingface_hub<1.0",
+]
+
+[tool.uv]
+package = false

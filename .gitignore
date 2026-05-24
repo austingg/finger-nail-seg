@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.venv/
+venv/
+.env
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Runtime outputs
+outputs/
+*.log
+
+# Model artifacts
+*.pt
+*.pth
+*.ckpt
+*.engine
+
+# Keep ONNX model by default for release
+# (If you want to ignore all ONNX files, uncomment the next line)
+# *.onnx
+
+# Gradio temp/cache
+.gradio/
