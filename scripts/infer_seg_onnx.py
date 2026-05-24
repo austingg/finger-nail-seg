@@ -18,8 +18,10 @@ def main():
     parser.add_argument("--model", type=str, default="models/nail-seg.onnx")
     parser.add_argument("--input", type=str, required=True)
     parser.add_argument("--out", type=str, default="outputs")
-    parser.add_argument("--conf", type=float, default=0.25)
+    parser.add_argument("--conf", type=float, default=0.55)
     parser.add_argument("--iou", type=float, default=0.45)
+    parser.add_argument("--mask_thr", type=float, default=0.5)
+    parser.add_argument("--min_area_ratio", type=float, default=0.01)
     args = parser.parse_args()
 
     inferencer = YoloV8SegONNX(args.model, conf_thres=args.conf, iou_thres=args.iou)
@@ -41,7 +43,13 @@ def main():
             print(f"[WARN] skip unreadable image: {p}")
             continue
 
-        instances = inferencer.infer(image)
+        inferencer.conf_thres = float(args.conf)
+        inferencer.iou_thres = float(args.iou)
+        instances = inferencer.infer(
+            image,
+            mask_thr=float(args.mask_thr),
+            min_area_ratio=float(args.min_area_ratio),
+        )
         mask, overlay = render_instances(image, instances)
 
         stem = p.stem
