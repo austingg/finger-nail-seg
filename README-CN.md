@@ -38,12 +38,13 @@
 - Python 3.10+
 - `uv`
 
-## 安装
+## 安装（uv）
 
 ```bash
-uv venv
+uv python install 3.10
+uv venv --python 3.10
 source .venv/bin/activate
-uv sync
+uv sync --frozen
 ```
 
 ## Demo 效果
@@ -52,6 +53,36 @@ uv sync
 |---|---|---|
 | ![1 input](./examples/input/1.jpg) | ![1 mask](./examples/output_mask/1_mask.png) | ![1 overlay](./examples/output_overlay/1_overlay.jpg) |
 | ![2 input](./examples/input/2.jpg) | ![2 mask](./examples/output_mask/2_mask.png) | ![2 overlay](./examples/output_overlay/2_overlay.jpg) |
+
+## Benchmark（基准测试）
+
+环境信息：
+
+- CPU：Intel(R) Core(TM) i7-7800X CPU @ 3.50GHz（6 核 12 线程）
+- Runtime：ONNX Runtime CPUExecutionProvider
+- Session 默认值：`intra_op_num_threads=0`、`inter_op_num_threads=0`、`execution_mode=ORT_SEQUENTIAL`、`graph_optimization_level=ORT_ENABLE_ALL`
+
+输入图像：
+
+- `examples/input/1.jpg`：`752 x 984`
+- `examples/input/2.jpg`：`902 x 1088`
+
+测试方法：
+
+- 预热：1 次
+- 正式测试：10 次（同一进程，2 张图交替）
+- 模型：`models/nail-seg.onnx`
+- 参数：`conf=0.25`、`iou=0.45`、`mask_thr=0.5`、`min_area_ratio=0.01`
+
+延时结果（ms）：
+
+- 平均值 Mean：`290.10`
+- P50：`291.06`
+- P90：`303.75`
+- 最小/最大：`274.40 / 304.76`
+- 按均值折算吞吐：`3.45 FPS`
+
+> 说明：以上结果来自本机实测，不同 CPU 型号、系统负载、运行参数下会有波动。
 
 ## CLI 推理
 

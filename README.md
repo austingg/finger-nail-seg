@@ -38,12 +38,13 @@ A baseline project for nail instance segmentation and lightweight try-on workflo
 - Python 3.10+
 - `uv`
 
-## Setup
+## Setup (uv)
 
 ```bash
-uv venv
+uv python install 3.10
+uv venv --python 3.10
 source .venv/bin/activate
-uv sync
+uv sync --frozen
 ```
 
 ## Demo Results
@@ -52,6 +53,36 @@ uv sync
 |---|---|---|
 | ![1 input](./examples/input/1.jpg) | ![1 mask](./examples/output_mask/1_mask.png) | ![1 overlay](./examples/output_overlay/1_overlay.jpg) |
 | ![2 input](./examples/input/2.jpg) | ![2 mask](./examples/output_mask/2_mask.png) | ![2 overlay](./examples/output_overlay/2_overlay.jpg) |
+
+## Benchmark
+
+Environment:
+
+- CPU: Intel(R) Core(TM) i7-7800X CPU @ 3.50GHz (6 cores, 12 threads)
+- Runtime: ONNX Runtime CPUExecutionProvider
+- Session defaults: `intra_op_num_threads=0`, `inter_op_num_threads=0`, `execution_mode=ORT_SEQUENTIAL`, `graph_optimization_level=ORT_ENABLE_ALL`
+
+Input images:
+
+- `examples/input/1.jpg`: `752 x 984`
+- `examples/input/2.jpg`: `902 x 1088`
+
+Method:
+
+- Warmup: 1 run
+- Measured runs: 10 (same process, alternating 2 images)
+- Model: `models/nail-seg.onnx`
+- Args: `conf=0.25`, `iou=0.45`, `mask_thr=0.5`, `min_area_ratio=0.01`
+
+Latency (ms):
+
+- Mean: `290.10`
+- P50: `291.06`
+- P90: `303.75`
+- Min/Max: `274.40 / 304.76`
+- Throughput (from mean): `3.45 FPS`
+
+> Notes: results are measured on the local machine and may vary by CPU model, load, and runtime settings.
 
 ## CLI Inference
 
