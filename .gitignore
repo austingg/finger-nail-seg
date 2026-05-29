@@ -28,3 +28,6 @@ outputs/
 
 # Gradio temp/cache
 .gradio/
+# Internal-only release prep artifacts
+README_PREP.md
+outputs_check/
